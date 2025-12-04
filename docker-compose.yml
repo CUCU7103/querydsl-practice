@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql_qp
+    restart: always
+    ports:
+      - "127.0.0.1:33306:3306"   # 로컬만 노출 (원하면 0.0.0.0로 변경)
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_ROOT_PASSWORD: admin1234
+      MYSQL_DATABASE: querydsl_practice
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+09:00
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+
+volumes:
+  mysql_data:
