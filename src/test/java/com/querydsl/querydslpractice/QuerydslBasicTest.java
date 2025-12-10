@@ -5,6 +5,7 @@ import static com.querydsl.querydslpractice.entity.QMember.*;
 import static com.querydsl.querydslpractice.entity.QTeam.*;
 import static org.assertj.core.api.Assertions.*;
 
+import com.querydsl.core.types.dsl.CaseBuilder;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -495,6 +496,48 @@ public class QuerydslBasicTest {
         for (Tuple tuple : result) {
             System.out.println("tuple = " + tuple);
         }
+        // assert
+    }
+
+
+
+    /// case 문
+
+    @Test
+    void basicCase() {
+
+        List<String> result = queryFactory
+            .select(member.age
+                .when(10).then("열살")
+                .when(20).then("스무살")
+                .otherwise("기타"))
+            .from(member)
+            .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+        // act
+
+        // assert
+    }
+
+
+    @Test
+    void complexCase() {
+        // arrange
+       List<String> result = queryFactory.select(new CaseBuilder().
+               when(member.age.between(0,20)).then("0~20살")
+            .when(member.age.between(21,30)).then("21~30살")
+            .otherwise("기타"))
+            .from(member)
+            .fetch();
+        // act
+
+        for(String s : result){
+            System.out.println("s = " + s);
+        }
+
         // assert
     }
 
